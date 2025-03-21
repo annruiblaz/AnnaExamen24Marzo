@@ -1,0 +1,145 @@
+* {
+    color: #353535;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.object {
+    border: 1px solid black;
+    color: black;
+    font-size: 18px;
+}
+
+canvas {
+    width: 250px;
+    height: 400px;
+}
+
+input {
+    max-width: 100px;
+    padding: 5px;
+    max-height: 20px;
+    margin: 5px 0;
+    border-radius: 2px;
+    border: 1px solid #353535;
+
+    &:focus {
+        outline: none;
+        border: 2px solid #3C6E71;
+    }
+}
+
+.config-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 0 20px;
+    padding: 20px 15px;
+    background-color: #f8f9fa;
+    border-radius: 2px;
+
+    h2 {
+        grid-column: span 3;
+        color: #284B63;
+    }
+
+    label {
+        align-self: flex-end;
+        color: #353535;
+    }
+
+
+
+    #objWeight {
+        grid-row-start: 3;
+    }
+
+    #objValue {
+        grid-row-start: 3;
+    }
+
+    #objColor {
+        grid-row-start: 3;
+        padding: 0;
+        width: 100%;
+        height: auto;
+        min-height: 50px;
+        max-height: auto;
+        /* Para q no salga el input con el borde */
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background-color: transparent;
+        border: 1px solid #353535;
+        border-radius: 2px;
+        cursor: pointer;
+
+        /* Elimina el padding y establece border-radius
+            en distintos navegadores para q no salga tan feo el input */
+        &::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+
+        &::-webkit-color-swatch {
+            border: 0;
+            border-radius: 2px;
+        }
+
+        &::-moz-color-swatch {
+            border: 0;
+            border-radius: 2px;
+        }
+    }
+
+    button {
+        width: 50px;
+        height: 50px;
+        grid-row: span 3 / span 3;
+        grid-row-start: 1;
+        grid-column-start: 4;
+        align-self: center;
+        justify-self: center;
+        color: #3C6E71;
+        background-color: #FFF;
+        font-size: 24px;
+        border: 1px solid #284B63;
+        border-radius: 2px;
+        transition: all .5s ease-in-out;
+
+        &:hover {
+            color: #284B63;
+            font-size: 28px;
+        }
+    }
+}
+
+.backpack-container {
+/*     display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(4, 80px);
+    gap: 20px;
+
+    canvas {
+        grid-row: span 3;
+        grid-column-start: 2;
+    }
+
+    label {
+        grid-row-start: 1;
+        align-self: flex-end;
+    }
+
+    button {
+        grid-column: span 2;
+    } */
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: auto;
+    min-height: 180px;
+    justify-content: space-around;
+
+    label {
+        justify-self: flex-end;
+    }
+}
