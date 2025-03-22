@@ -28,23 +28,92 @@ input {
     }
 }
 
+.btn {
+    height: 50px;
+    color: #284B63;
+    border: 1px solid #3C6E71;
+    background-color: #FFF;
+    border-radius: 2px;
+    transition: all .3s ease-in-out;
+    box-shadow: 0 3px 1px -2px #ccc, 0 2px 2px 0 #ccc, 0 1px 5px 0 #ccc;
+
+    &:hover {
+        background-color: #284B6395;
+        border: 1px solid #353535;
+        color: #FFF;
+        box-shadow: 0 2px 2px -2px #ccc, 0 4px 4px 1px #ccc, 0 2px 4px 1px #ccc;
+    }
+}
+
+.obj-container {
+/*     display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; */
+/*     display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(4, 120px);
+    align-items: flex-start;
+    justify-content: space-evenly;
+    gap: 20px; */
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 20px;
+}
+
+.flex {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+}
+
+.box-outline {
+    padding: 20px 15px;
+    background-color: #f8f9fa20;
+    border: 1px dashed #284B6350;
+    border-radius: 2px;
+}
+
 .config-container {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    gap: 0 20px;
+    width: fit-content;
     padding: 20px 15px;
-    background-color: #f8f9fa;
-    border-radius: 2px;
+    grid-row: span 2 / span 2;
+    grid-template-columns: repeat(4, 150px);
+    grid-template-rows: 40px 25px 50px;
+    gap: 10px 20px;
+    justify-items: center;
+
+    @media (max-width: 768px) {
+        display: flex;
+        flex-direction: column;
+        width: 90%;
+    }
 
     h2 {
+        padding: 0;
+        margin: 0;
         grid-column: span 3;
         color: #284B63;
+        justify-self: flex-start;
+        font-size: 24px;
+        font-weight: 500;
+
+        @media (max-width: 768px) {
+            text-align: center;
+            grid-column: span 2 / span 2;
+        }
     }
 
     label {
         align-self: flex-end;
         color: #353535;
+
+        @media (max-width: 768px) {
+            align-self: baseline;
+        }
     }
 
 
@@ -61,9 +130,8 @@ input {
         grid-row-start: 3;
         padding: 0;
         width: 100%;
-        height: auto;
-        min-height: 50px;
-        max-height: auto;
+        height: 100%;
+        max-height: 30px;
         /* Para q no salga el input con el borde */
         -webkit-appearance: none;
         -moz-appearance: none;
@@ -92,23 +160,27 @@ input {
 
     button {
         width: 50px;
-        height: 50px;
         grid-row: span 3 / span 3;
         grid-row-start: 1;
         grid-column-start: 4;
         align-self: center;
-        justify-self: center;
-        color: #3C6E71;
-        background-color: #FFF;
         font-size: 24px;
-        border: 1px solid #284B63;
-        border-radius: 2px;
-        transition: all .5s ease-in-out;
+    }
+}
 
-        &:hover {
-            color: #284B63;
-            font-size: 28px;
-        }
+.obj-canvas-container {
+/*     max-width: 440px;
+ */
+    grid-row: span 4 / span 4;
+    max-width: 260px;
+    h3 {
+        padding: 0;
+        margin: 0;
+        grid-column: span 3;
+        color: #284B63;
+        justify-self: flex-start;
+        font-size: 24px;
+        font-weight: 500;
     }
 }
 
@@ -131,15 +203,60 @@ input {
     button {
         grid-column: span 2;
     } */
-
+    padding: 20px 55px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 10px;
     height: auto;
-    min-height: 180px;
-    justify-content: space-around;
+    justify-content: space-between;
+    grid-row-start: 3;
 
     label {
         justify-self: flex-end;
+    }
+
+    .backpack-input {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.final-results-container {
+    opacity: 1;
+    grid-row-start: 4;
+    transition: all .5s ease-in;
+
+    &.hidden {
+        opacity: 0;
+    }    
+}
+
+table {
+    width: 100%;
+    height: auto;
+    border: 1px dashed #284B6380;
+}
+
+th {
+    padding: 5px 10px;
+    color: #284B63;
+    background-color: #284B6320;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+th, td {
+    border: 1px solid #284B6340;
+    text-align: center;
+    padding: 5px 10px;
+    transition: background-color .2s ease-in-out;
+}
+
+.selected {
+    background-color: #3C6E7110;
+
+    td {
+        color: #284B63;
+        font-weight: bold;
     }
 }
