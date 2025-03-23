@@ -1,72 +1,80 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Examen 24 Marzo</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <div class="container">
-    <div class="flex">
-        <div class="obj-container">
-            <div class="config-container box-outline">
-                <h2>Añadir objeto</h2>
-                <label for="objWeight">Peso (kg):</label>
-                <input required type="number" id="objWeight" min="1" max="15" step="1" value="1">
-                <label for="objColor">Selecciona un color: </label>
-                <input type="color" id="objColor" value="#e3f6f5">
-                <label for="objValue">Valor: </label>
-                <input required type="number" id="objValue" min="1" max="50" step="1" value="1">
-                <button id="addObjBtn" class="btn" onclick="addObject()">+</button>
-            </div>
-        
-            <div class="backpack-container box-outline">
-                <!--             <canvas id="objectsCanvas"></canvas>-->
-                <div class="backpack-input">
-                    <label for="backpack">Capacidad máxima de la mochila (kg):</label>
-                    <input type="number" id="backpackWeight" min="3" max="25" step="1" value="10">
+        <div class="flex">
+            <div class="obj-container">
+                <div class="config-container box-outline">
+                    <h2>Añadir objeto</h2>
+                    <div class="input-group weight">
+                        <label for="objWeight">Peso (kg):</label>
+                        <input required type="number" id="objWeight" min="1" max="15" step="1" value="1">
+                    </div>
+                
+                    <div class="input-group color">
+                        <label for="objColor">Selecciona un color:</label>
+                        <input type="color" id="objColor" value="#e3f6f5">
+                    </div>
+                
+                    <div class="input-group value">
+                        <label for="objValue">Valor:</label>
+                        <input required type="number" id="objValue" min="1" max="50" step="1" value="1">
+                    </div>
+
+                    <div class="input-group backpack">
+                        <label for="backpack">Capacidad máxima de la mochila (kg):</label>
+                        <input type="number" id="backpackWeight" min="3" max="25" step="1" value="10">
+                    </div>
+                    <button id="addObjBtn" class="btn" onclick="addObject()">+</button>
                 </div>
+
                 <button id="start" class="btn" onclick="start()">Comenzar Algoritmo</button>
             </div>
 
-            <div class="final-results-container box-outline hidden">
 
+            <div class="obj-canvas-container box-outline">
+                <h3>Objetos</h3>
+                <canvas id="objectsCanvas"></canvas>
             </div>
         </div>
 
-                
-        <div class="obj-canvas-container box-outline">
-            <h3>Objetos: </h3>
-            <canvas id="objectsCanvas"></canvas>
+
+        <div class="selected-obj-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Peso</th>
+                        <th>Valor</th>
+                        <th>Ratio Valor / Peso</th>
+                        <th>Color</th>
+                        <th>Seleccionado</th>
+                    </tr>
+                </thead>
+                <tbody id="info-tbody">
+
+                </tbody>
+            </table>
+
+            <div class="selected-canvas-container box-outline hidden">
+                <h2>Resultados</h2>
+                <div class="final-results-container box-outline hidden">
+                    <span id="backpack-info"></span>
+
+                </div>
+                <h3>Mochila</h3>
+                <canvas id="selectedObjectsCanvas"></canvas>
+            </div>
         </div>
     </div>
-
-
-    <div class="selected-obj-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Peso</th>
-                    <th>Valor</th>
-                    <th>Ratio Valor / Peso</th>
-                    <th>Color</th>
-                    <th>Seleccionado</th>
-                </tr>
-            </thead>
-            <tbody id="info-tbody">
-
-            </tbody>
-        </table>
-    </div>
-
-    <div class="canvas-container box-outline hidden">
-        <h3>Objetos Seleccionados: </h3>
-        <canvas id="selectedObjectsCanvas"></canvas>
-    </div>
-    </div>
-    
-
     <script src="script.js"></script>
 </body>
+
 </html>

@@ -8,6 +8,8 @@ const INPUT_BACKPACK_WEIGHT = document.getElementById('backpackWeight');
 const FINAL_RESULTS_CONTAINER = document.querySelector('.final-results-container');
 const OBJ_CONTAINER = document.querySelector('.obj-container');
 const TABLE_INFO_TBODY = document.getElementById('info-tbody');
+const BACKPACK_INFO = document.getElementById('backpack-info');
+const SELECTED_CANVAS_CONTAINER = document.querySelector('.selected-canvas-container');
 const SELECTED_OBJECTS_CANVAS = document.getElementById('selectedObjectsCanvas');
 
 //const utiles
@@ -187,8 +189,12 @@ function showMaxValues(valueTotal, weightTotal) {
     //añado el nuevo html
     FINAL_RESULTS_CONTAINER.innerHTML = `
         <div>
+            <span>Capacidad de la mochila: </span>
+            ${INPUT_BACKPACK_WEIGHT.value}kg
+        </div>
+        <div>
             <span>Peso total: </span>
-            ${weightTotal}
+            ${weightTotal}kg
         </div>
 
         <div>
@@ -198,7 +204,6 @@ function showMaxValues(valueTotal, weightTotal) {
     `;
 
     FINAL_RESULTS_CONTAINER.classList.remove('hidden');
-    OBJ_CONTAINER.appendChild(FINAL_RESULTS_CONTAINER);
 }
 
 function updateSelectedObj(best) {
@@ -241,7 +246,7 @@ function showSelectedObjects() {
         }
     });
 
-    document.querySelector('.canvas-container').classList.remove('hidden');
+    SELECTED_CANVAS_CONTAINER.classList.remove('hidden');
 }
 
 class GA {
