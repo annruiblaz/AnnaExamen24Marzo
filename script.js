@@ -28,7 +28,7 @@ function addObject() {
     //creo el obj para almacenar bn los datos con sus props
     let newObj = {
         value: objValue,
-        weigth: objweight,
+        weight: objweight,
         color: objColor,
         selected: false
     };
@@ -50,7 +50,7 @@ function createInitialObj() {
     for( let i = 0; i < 4; i ++) {
         let newObj = { //creamos obj con valores random
             value: Math.floor(Math.random() * 50) + 1,
-            weigth: Math.floor(Math.random() * 10) + 1,
+            weight: Math.floor(Math.random() * 10) + 1,
             color: getRandomColor(),
             selected: false
         }
@@ -86,7 +86,7 @@ function showObjects() {
         //config el texto
         ctx.fillStyle = 'black'; //color del texto
         ctx.font = '30px Arial'; //fuente y tamaño del texto
-        ctx.fillText(`Peso: ${obj.weigth}kg \n|\n Valor: ${obj.value}`, x + 60, y + 70); // añade el texto (texto, x, y)
+        ctx.fillText(`Peso: ${obj.weight}kg \n|\n Valor: ${obj.value}`, x + 60, y + 70); // añade el texto (texto, x, y)
 
         //actualiza la posición Y para el siguiente objeto
         y += 120 + padding;
@@ -98,49 +98,47 @@ function showObjects() {
 //funcion q inicializa el algoritmo genético
 function start() {
     console.log('Objects.length: ', OBJECTS.length);
+
+    let crosspoint = Math.round(OBJECTS.length / 2);
+    console.log('CROSSPOINT', crosspoint);
+
     //TODO: afinar valores!!!!!
-    const ag = new GA(4, 2, 5, 4, 2, true);
+    const ag = new GA(10, 4, 15, OBJECTS.length, crosspoint, true);
 
     //creamos la poblacion inicial
     let pop = ag.createPop();
     console.log('Población inicial: ', pop);
 
     //calculamos fitness de la primera pop
-    let fitnessPop = ag.fitness(pop);
+    pop = ag.fitness(pop);
 
     //se ejecutan las generaciones
     for (let i = 0; i < ag.generations; i++) {
-        ag.printGeneration(fitnessPop, i+1);
+        ag.printGeneration(pop, i+1);
 
         //se seleccionan los mejores
-        let sel = ag.selection(fitnessPop);
-        console.log(`--- Selection ${sel} ---`);
+        let sel = ag.selection(pop);
+        console.log(`--- Selection ${JSON.stringify(sel)} ---`);
 
         //reproduccion d los seleccionados
         pop = ag.reproduction(pop.length, sel);
         console.log('--> Nueva generación tras reproducción: ', pop);
 
         //fitness d la nueva generación / pop
-        fitnessPop = ag.fitness(pop);
+        pop = ag.fitness(pop);
     }
 
-    //ordenamos la ult pop (ascendente)
-    fitnessPop.sort((a, b) =>  a.valueTotal - b.valueTotal);
-    console.log('Ultimo fitness sort', fitnessPop);
-
-    //No sirve xq solo pilla el array de pop, cuando ya tenemos el fitness calculado
-    //console.log('Mejor resultado? ', pop.slice(-1));
+    //ordenamos la ult pop x mejor valorTotal
+    pop.sort((a, b) =>  a.valueTotal - b.valueTotal);
+    console.log('Ultimo fitness sort', pop);
 
     //+ optimo xq siempre necesitaremos la ult posicion del pop ya ordenado
-    let bestResult = fitnessPop[fitnessPop.length -1];
-    console.log('Mejor resultado: ', bestResult);
+    let bestResult = pop[pop.length -1];
+    console.info('Mejor resultado: ', bestResult);
     updateSelectedObj(bestResult);
     showTableInfo(true);
     showSelectedObjects();
 }
-
-createInitialObj();
-console.log('Objetos iniciales: ', OBJECTS);
 
 //funcion q muestra la info de los objetos
 function showTableInfo(finalValues) {
@@ -149,44 +147,49 @@ function showTableInfo(finalValues) {
     let weightTotal = 0;
 
     for(let i = 0; i < OBJECTS.length; i ++) {
-        let tr = document.createElement('tr');
-        //console.log('best[0][i]', best.pop[i]);
-        let calcRatio = OBJECTS[i].value / OBJECTS[i].weigth;
+        let tr = document.createElement('tr'); //creamos la nueva fila para la tabla
+        let calcRatio = OBJECTS[i].value / OBJECTS[i].weight;//calcula el ratio valor / peso
 
+        //creamos array con los datos de esa fila
         let tdInfo = [
-            OBJECTS[i].weigth,
+            OBJECTS[i].weight,
             OBJECTS[i].value,
             calcRatio.toFixed(2),
             OBJECTS[i].color,
             OBJECTS[i].selected === true ? 'Sí' : 'No'
         ];
 
+        //itera sobre el array d los datos
         tdInfo.forEach( (info, idx) => {
-            let td = document.createElement('td');
-            if(idx === 3) td.style.backgroundColor = OBJECTS[i].color
-            else td.textContent = info;
-            tr.appendChild(td);
+            let td = document.createElement('td');//crea una celda para cada uno
+            if(idx === 3) td.style.backgroundColor = OBJECTS[i].color //si es el index del color, cambia el color d fondo
+            else td.textContent = info; //para el resto añade su info
+            tr.appendChild(td);//se añade a la fila
         });
 
+        //si el bool q controla si vamos a mostrar el resultado es true
         if(finalValues) {
+            //itera el array d objetos x si esta seleccionado en el resultado
             if(OBJECTS[i].selected) {
-                tr.classList.add('selected');
+                tr.classList.add('selected'); //añade la clase d css para q quede cute
+                //sumamos peso y valor al total
                 valueTotal += OBJECTS[i].value;
-                weightTotal += OBJECTS[i].weigth;
+                weightTotal += OBJECTS[i].weight;
             }
-            console.log(`showTableInfo: ValueTotal ${valueTotal}, weightTotal: ${weightTotal}`);
+            //funcion q muestra el valor y peso total del resultado
             showMaxValues(valueTotal, weightTotal);
         }
 
-        TABLE_INFO_TBODY.appendChild(tr);
+        TABLE_INFO_TBODY.appendChild(tr);//se añade la fila al tbody
     }
 }
 
+//funcion q muestra en el front los resultados d valor y peso total
 function showMaxValues(valueTotal, weightTotal) {
     //limpio el contenido ya existente
     FINAL_RESULTS_CONTAINER.innerHTML = '';
 
-    //añado el nuevo html
+    //añado el nuevo html con los valores + mochila
     FINAL_RESULTS_CONTAINER.innerHTML = `
         <div>
             <span>Capacidad de la mochila: </span>
@@ -203,14 +206,15 @@ function showMaxValues(valueTotal, weightTotal) {
         </div>
     `;
 
-    FINAL_RESULTS_CONTAINER.classList.remove('hidden');
+    FINAL_RESULTS_CONTAINER.classList.remove('hidden');//para mostrarlo
 }
 
+//funcion q itera el array bin del resultado
 function updateSelectedObj(best) {
     for (let i = 0; i < OBJECTS.length; i++) {
-        // se queda el bool del resultado d si best.pop[i] es 1 --> true = el objeto está seleccionado
-        OBJECTS[i].selected = parseInt(best.pop[i]) === 1;
-        console.log(`Objeto ${i} seleccionado: ${OBJECTS[i].selected}`);
+        // actualiza el bool de cada obj en base a
+        // si en esa posicion de la pop esta seleccionado (1)
+        OBJECTS[i].selected = best.pop[i] === 1;
     }
 }
 
@@ -239,7 +243,7 @@ function showSelectedObjects() {
             // Configura el texto
             ctx.fillStyle = 'black'; // Color del texto
             ctx.font = '30px Arial'; // Fuente y tamaño del texto
-            ctx.fillText(`Peso: ${obj.weigth}kg \n|\n Valor: ${obj.value}`, x + 60, y + 70); // Añade el texto
+            ctx.fillText(`Peso: ${obj.weight}kg \n|\n Valor: ${obj.value}`, x + 60, y + 70); // Añade el texto
 
             // Actualiza la posición Y para el siguiente objeto
             y += 120 + padding;
@@ -248,6 +252,9 @@ function showSelectedObjects() {
 
     SELECTED_CANVAS_CONTAINER.classList.remove('hidden');
 }
+
+createInitialObj();
+console.log('Objetos iniciales: ', OBJECTS);
 
 class GA {
     constructor(individuals, nSelection, generations, chrom, crosspoint, max) {
@@ -286,7 +293,7 @@ class GA {
                 if (parseInt(pop[i][j]) === 1) {
                     //para sumar su valor y peso al total
                     valueTotal += OBJECTS[j].value;
-                    weightTotal += OBJECTS[j].weigth;
+                    weightTotal += OBJECTS[j].weight;
                 }
 
                 //si es el ult obj del array bin d predicciones
@@ -300,7 +307,6 @@ class GA {
                         valueTotal: valueTotal,
                         weightTotal: weightTotal
                     }
-                    console.log(`resultado fitness pop ${i} : ${JSON.stringify(newResult)}`);
                     results.push(newResult); //lo añadimos al array
                 }
             }
@@ -313,8 +319,8 @@ class GA {
     selection(pop) {
         //se ordenan en base a si debe maximizar o no
         pop.sort((a, b) => this.max ? a.valueTotal - b.valueTotal : b.valueTotal - a.valueTotal);
-        console.log('Pop sorted: ', pop);
-
+        //para evitar problemas si es impar
+        if (this.nSelection % 2 !== 0) this.nSelection += 1;
         //devolvemos los n ult en el array
         return pop.slice(-this.nSelection);
     }
@@ -322,34 +328,34 @@ class GA {
     //funcion q genera nuevas predicciones combinando los mejores (seleccionados)
     reproduction(numPop, selected) {
         let newPop = [];
-        //TODO: Ajustar la tasa d mutación para q sea configurableee y rollo 0.15
         //en este caso siempre muta 1 de los individuos d la nueva pop
-        let idxMuta = Math.floor(Math.random() * numPop); //PRUEBA!!!
 
         //iteramos sobre la pop para generar todos los 'hijos' necesarios
         for(let i = 0; i < numPop; i++) {
+            let probMuta = Math.random(); //genera num para mutar entre 0 y 1
+            console.log('probMuta', probMuta);
+
             //mezclamos los individuos d manera aleatoria
             let shuffled = selected.sort(() => Math.random() - 0.5);
-            let [parent1, parent2] = shuffled; //almacenamos y printeamos los papis
-            console.log(`Parent1 ${parent1.pop}, Parent2: ${parent2.pop}`);
+            //almacenamos y printeamos los papis
+            let parent1 = selected[Math.floor(Math.random() * selected.length)];
+            let parent2 = selected[Math.floor(Math.random() * selected.length)];
 
-            //TODO: revisar valor d crosspoint
             //creamos el hijo con la mitad d un padre y la contraria del otro
-            let children = parent1.pop.slice(0, this.crosspoint) + ',' + parent2.pop.slice(this.crosspoint);
+            let children = parent1.pop.slice(0, this.crosspoint).concat(parent2.pop.slice(this.crosspoint));
             
-            console.log('Hijo: ' + parent1.pop.slice(0, this.crosspoint) + '+' + parent2.pop.slice(this.crosspoint));
-            console.log('children: ', children);
-            //un poco guarrada xq al hacer el slice se pasan a string (x eso añade la ,)
-            //con split y el array.from crea un array de string con los valores en bin
-            children = Array.from(children.split(','));
+            console.log(`Padre 1: ${parent1.pop} + Padre 2: ${parent2.pop}`);
+            console.log('Combinación: ' + parent1.pop.slice(0, this.crosspoint) + '+' + parent2.pop.slice(this.crosspoint));
+            console.log('Resultado hijo: ', children);
 
             //si el idx es igual al seleccionado para mutar
-            if(i === idxMuta) {
-            //TODO: revisar valor chrom (para q acepte variacion con el num d obj)
+            if(probMuta >= .75) {
             //cambiamos uno d sus bits d manera aleatoria
             let bit = Math.floor(Math.random() * this.chrom); //generamos el idx del bit a modificar
-            children[bit] = children[bit] === '0' ? '1' : '0';
+            children[bit] = children[bit] === 0 ? 1 : 0;
+            console.log(`---> Probabilidad de mutar alta ${probMuta} Hijo mutado: ${children}`);
             }
+            console.log("-----------------------------");
             //s añade el nuevo individuo a la pop
             newPop.push(children);
         }
@@ -363,4 +369,5 @@ class GA {
         console.log("=============================");
         console.log("Población:", pop);
     }
+
 }
