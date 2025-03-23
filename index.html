@@ -15,7 +15,7 @@
                 <label for="objWeight">Peso (kg):</label>
                 <input required type="number" id="objWeight" min="1" max="15" step="1" value="1">
                 <label for="objColor">Selecciona un color: </label>
-                <input type="color" id="objColor" value="#FF714B">
+                <input type="color" id="objColor" value="#e3f6f5">
                 <label for="objValue">Valor: </label>
                 <input required type="number" id="objValue" min="1" max="50" step="1" value="1">
                 <button id="addObjBtn" class="btn" onclick="addObject()">+</button>
@@ -43,6 +43,7 @@
     </div>
 
 
+    <div class="selected-obj-container">
         <table>
             <thead>
                 <tr>
@@ -58,6 +59,13 @@
             </tbody>
         </table>
     </div>
+
+    <div class="canvas-container box-outline hidden">
+        <h3>Objetos Seleccionados: </h3>
+        <canvas id="selectedObjectsCanvas"></canvas>
+    </div>
+    </div>
+    
 
     <script src="script.js"></script>
 </body>

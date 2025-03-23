@@ -24,25 +24,28 @@ input {
 
     &:focus {
         outline: none;
-        border: 2px solid #3C6E71;
+        border: 2px solid #2c698d;
     }
 }
 
 .btn {
     height: 50px;
     color: #284B63;
-    border: 1px solid #3C6E71;
+    border: 1px solid #2c698d50;
     background-color: #FFF;
     border-radius: 2px;
     transition: all .3s ease-in-out;
     box-shadow: 0 3px 1px -2px #ccc, 0 2px 2px 0 #ccc, 0 1px 5px 0 #ccc;
 
     &:hover {
-        background-color: #284B6395;
-        border: 1px solid #353535;
-        color: #FFF;
+        background-color: #e3f6f540;
+        border: 1px solid #2c698d80;
         box-shadow: 0 2px 2px -2px #ccc, 0 4px 4px 1px #ccc, 0 2px 4px 1px #ccc;
     }
+}
+
+.hidden {
+    opacity: 0;
 }
 
 .obj-container {
@@ -66,6 +69,7 @@ input {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    gap: 20px;
 
 }
 
@@ -226,12 +230,24 @@ input {
     grid-row-start: 4;
     transition: all .5s ease-in;
 
-    &.hidden {
-        opacity: 0;
-    }    
+    span {
+        color: #284B63;
+        justify-self: flex-start;
+        font-size: 24px;
+        font-weight: 500;
+    }
+
+    font-size: 20px;
+}
+
+.selected-obj-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 table {
+    margin: 20px 0;
     width: 100%;
     height: auto;
     border: 1px dashed #284B6380;
@@ -240,7 +256,7 @@ table {
 th {
     padding: 5px 10px;
     color: #284B63;
-    background-color: #284B6320;
+    background-color: #2c698d50;
     font-size: 20px;
     font-weight: 500;
 }
@@ -252,11 +268,20 @@ th, td {
     transition: background-color .2s ease-in-out;
 }
 
+td:hover {
+    background-color: #bae8e8;
+}
+
 .selected {
-    background-color: #3C6E7110;
+    background-color: #e3f6f5;
 
     td {
         color: #284B63;
         font-weight: bold;
     }
+}
+
+.canvas-container {
+    width: fit-content;
+    height: fit-content;
 }
