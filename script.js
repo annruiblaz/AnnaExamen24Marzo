@@ -97,13 +97,9 @@ function showObjects() {
 
 //funcion q inicializa el algoritmo genético
 function start() {
-    console.log('Objects.length: ', OBJECTS.length);
-
     let crosspoint = Math.round(OBJECTS.length / 2);
-    console.log('CROSSPOINT', crosspoint);
 
-    //TODO: afinar valores!!!!!
-    const ag = new GA(10, 4, 15, OBJECTS.length, crosspoint, true);
+    const ag = new GA(20, 4, 30, OBJECTS.length, crosspoint, true);
 
     //creamos la poblacion inicial
     let pop = ag.createPop();
@@ -349,7 +345,7 @@ class GA {
             console.log('Resultado hijo: ', children);
 
             //si el idx es igual al seleccionado para mutar
-            if(probMuta >= .75) {
+            if(probMuta >= .85) {
             //cambiamos uno d sus bits d manera aleatoria
             let bit = Math.floor(Math.random() * this.chrom); //generamos el idx del bit a modificar
             children[bit] = children[bit] === 0 ? 1 : 0;
