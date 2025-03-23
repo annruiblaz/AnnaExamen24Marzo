@@ -88,8 +88,6 @@ input {
     display: grid;
     padding: 20px 15px;
     grid-row: span 2 / span 2;
-/*     grid-template-columns: repeat(4, 150px);
-    grid-template-rows: 40px 25px 50px; */
     grid-template-rows: repeat(3, 70px);
     grid-template-columns: repeat(3, 1fr);
     justify-items: start;
@@ -211,8 +209,6 @@ input {
 }
 
 .obj-canvas-container {
-/*     max-width: 440px;
- */
     grid-row: span 4 / span 4;
     max-width: 260px;
     h3 {
@@ -228,24 +224,6 @@ input {
 }
 
 .backpack-container {
-/*     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(4, 80px);
-    gap: 20px;
-
-    canvas {
-        grid-row: span 3;
-        grid-column-start: 2;
-    }
-
-    label {
-        grid-row-start: 1;
-        align-self: flex-end;
-    }
-
-    button {
-        grid-column: span 2;
-    } */
     padding: 20px 55px;
     display: flex;
     flex-direction: row;
